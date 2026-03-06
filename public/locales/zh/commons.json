@@ -448,7 +448,10 @@
       "tokens-unit": "Tokens",
       "online-search": {
         "title": "联网搜索",
-        "toggle": "启用联网搜索",
+        "toggle": {
+          "disabled": "开启联网搜索",
+          "enabled": "已开启联网搜索"
+        },
         "desc": "在需要时允许助手调用联网搜索工具。",
         "show-toggle-in-scanner": "在扫描界面显示联网搜索按钮以快速切换"
       }

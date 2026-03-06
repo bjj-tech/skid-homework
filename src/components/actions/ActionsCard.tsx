@@ -70,7 +70,7 @@ export default function ActionsCard({
       className={cn(
         "md:col-span-1 border-white/10 backdrop-blur",
         layout === "mobile" &&
-          "border border-white/20 bg-background/70 shadow-lg backdrop-blur-lg",
+        "border border-white/20 bg-background/70 shadow-lg backdrop-blur-lg",
         className,
       )}
     >
@@ -109,7 +109,10 @@ export default function ActionsCard({
             <OnlineSearchToggle
               checked={onlineSearchEnabled}
               onCheckedChange={setOnlineSearchEnabled}
-              label={tCommon("settings-page.thinking.online-search.toggle")}
+              label={onlineSearchEnabled
+                ? tCommon("settings-page.thinking.online-search.toggle.enabled")
+                : tCommon("settings-page.thinking.online-search.toggle.disabled")
+              }
             />
           </div>
         )}

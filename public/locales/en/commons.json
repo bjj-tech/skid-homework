@@ -448,7 +448,10 @@
       "tokens-unit": "tokens",
       "online-search": {
         "title": "Online search",
-        "toggle": "Enable online search",
+        "toggle": {
+          "disabled": "Enable online search",
+          "enabled": "Enabled online search"
+        },
         "desc": "Allow the assistant to call web search tools when needed.",
         "show-toggle-in-scanner": "Show online search toggle in scanner"
       }
