@@ -5,7 +5,7 @@ export type OnlineSearchToggleProps = {
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
   label: string;
-}
+};
 
 export function OnlineSearchToggle({
   checked,

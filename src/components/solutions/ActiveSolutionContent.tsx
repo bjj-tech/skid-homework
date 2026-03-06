@@ -44,7 +44,7 @@ export default function ActiveSolutionContent({
   const aiSources = useAiStore((s) => s.sources);
   const aiSourceNames = useMemo(
     () => new Map(aiSources.map((s) => [s.id, s.name])),
-    [aiSources],
+    [aiSources]
   );
 
   const [{ x }, api] = useSpring(() => ({ x: 0 }));
@@ -107,7 +107,7 @@ export default function ActiveSolutionContent({
       if (mx < 0) goNextProblem();
       else goPrevProblem();
     },
-    { enabled: prefersTouch && isActive, filterTaps: true, threshold: 25 },
+    { enabled: prefersTouch && isActive, filterTaps: true, threshold: 25 }
   );
 
   const dragStyle = prefersTouch
@@ -125,6 +125,7 @@ export default function ActiveSolutionContent({
       res.improved_answer,
       res.improved_explanation,
       res.improved_steps,
+      res.onlineSearch
     );
   };
 

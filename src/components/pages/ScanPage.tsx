@@ -12,7 +12,7 @@ import solvePrompt from "@/ai/prompts/solve.prompt.md";
 import { uint8ToBase64 } from "@/utils/encoding";
 import { parseSolveResponse } from "@/ai/response";
 
-import { type FileItem as FileItem, type ProblemSolution, useProblemsStore } from "@/store/problems-store";
+import { type FileItem as FileItem, type ProblemSolution, useProblemsStore, } from "@/store/problems-store";
 import SolutionsArea from "../solutions/SolutionsArea";
 import { useSettingsStore } from "@/store/settings-store";
 import { processImage } from "@/utils/image-post-processing";
@@ -51,7 +51,7 @@ export default function ScanPage() {
   const isStoreReady = useStoreInitialization();
 
   const { imageEnhancement, traits, onlineSearchEnabled } = useSettingsStore(
-    (s) => s,
+    (s) => s
   );
 
   // Zustand store for AI provider configuration.
@@ -62,7 +62,7 @@ export default function ScanPage() {
 
   const enabledSources = useMemo(() => {
     const available = sources.filter(
-      (source) => source.enabled && Boolean(source.apiKey),
+      (source) => source.enabled && Boolean(source.apiKey)
     );
 
     const active = available.find((source) => source.id === activeSourceId);
@@ -78,7 +78,7 @@ export default function ScanPage() {
 
   const isMobile = useMediaQuery("(max-width: 640px)");
   const [activeTab, setActiveTab] = useState<"capture" | "preview">(
-    items.length ? "preview" : "capture",
+    items.length ? "preview" : "capture"
   );
   useShortcut(
     "openChat",
@@ -86,7 +86,7 @@ export default function ScanPage() {
       event.preventDefault();
       router.push("/chat");
     },
-    [router],
+    [router]
   );
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function ScanPage() {
   // Memoized calculation of the total size of all uploaded files.
   const totalBytes = useMemo(
     () => items.reduce((sum, it) => sum + it.file.size, 0),
-    [items],
+    [items]
   );
 
   useEffect(() => {
@@ -185,7 +185,7 @@ export default function ScanPage() {
         });
       }
     },
-    [addFileItems, imageEnhancement, allowPdfUploads, t, updateFileItem],
+    [addFileItems, imageEnhancement, allowPdfUploads, t, updateFileItem]
   );
 
   // Function to remove a specific item from the list by its ID.
@@ -208,7 +208,7 @@ export default function ScanPage() {
   const retryAsyncOperation = async (
     asyncFn: () => Promise<string>,
     maxRetries: number = 5,
-    initialDelayMs: number = 5000,
+    initialDelayMs: number = 5000
   ): Promise<string> => {
     let lastError: Error | undefined;
     let delay = initialDelayMs;
@@ -224,7 +224,7 @@ export default function ScanPage() {
         }
 
         console.log(
-          `Attempt ${attempt} failed. Retrying in ${delay / 1000}s...`,
+          `Attempt ${attempt} failed. Retrying in ${delay / 1000}s...`
         );
 
         if (attempt < maxRetries) {
@@ -251,7 +251,7 @@ export default function ScanPage() {
     }
 
     const invalidSource = availableSources.find(
-      (source) => !source.model || source.model.length === 0,
+      (source) => !source.model || source.model.length === 0
     );
     if (invalidSource) {
       toast(t("toasts.no-model.title"), {
@@ -270,7 +270,7 @@ export default function ScanPage() {
     }
 
     const itemsToProcess = items.filter(
-      (item) => item.status === "pending" || item.status === "failed",
+      (item) => item.status === "pending" || item.status === "failed"
     );
 
     if (itemsToProcess.length === 0) {
@@ -281,7 +281,7 @@ export default function ScanPage() {
     }
 
     const hasPdfItems = itemsToProcess.some(
-      (item) => item.mimeType === "application/pdf",
+      (item) => item.mimeType === "application/pdf"
     );
 
     if (hasPdfItems && !allowPdfUploads) {
@@ -322,7 +322,7 @@ export default function ScanPage() {
             const aiClient = getClientForSource(source.id);
             if (!aiClient) {
               throw new Error(
-                t("errors.missing-key", { provider: source.name }),
+                t("errors.missing-key", { provider: source.name })
               );
             }
 
@@ -359,8 +359,8 @@ ${traits}
                 undefined,
                 source.model,
                 (text) => appendStreamedOutput(item.id, text),
-                { onlineSearch: onlineSearchEnabled },
-              ),
+                { onlineSearch: onlineSearchEnabled }
+              )
             );
 
             const res = parseSolveResponse(resText);
@@ -463,14 +463,14 @@ ${traits}
           <header
             className={cn(
               "mb-6 flex items-center justify-between gap-4",
-              isMobile && "flex-col items-start",
+              isMobile && "flex-col items-start"
             )}
           >
             <div className="flex w-full flex-col gap-2">
               <h1
                 className={cn(
                   "text-3xl font-semibold tracking-tight",
-                  isMobile && "text-2xl leading-tight",
+                  isMobile && "text-2xl leading-tight"
                 )}
               >
                 {t("title")}
@@ -484,7 +484,7 @@ ${traits}
             <Button
               className={cn(
                 "gap-2 whitespace-nowrap",
-                isMobile ? "w-full justify-center rounded-full py-3" : "px-4",
+                isMobile ? "w-full justify-center rounded-full py-3" : "px-4"
               )}
               size={isMobile ? "lg" : "default"}
               variant="secondary"
@@ -585,7 +585,7 @@ ${traits}
           <footer
             className={cn(
               "mt-10 flex items-center justify-between text-sm text-muted-foreground",
-              isMobile && "mt-12 flex-col items-start gap-3 text-base",
+              isMobile && "mt-12 flex-col items-start gap-3 text-base"
             )}
           >
             <p>

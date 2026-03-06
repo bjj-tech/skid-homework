@@ -11,6 +11,7 @@ export interface ImproveResponse {
   improved_answer: string;
   improved_explanation: string;
   improved_steps: ExplanationStep[];
+  onlineSearch?: string;
 }
 
 // SECTION: Core Logic (Using 'marked' AST/Lexer)
@@ -142,7 +143,7 @@ export function parseSolveResponse(response: string): SolveResponse {
     const answer = sections["ANSWER"] || "";
     const hasOnlineSearch = Object.prototype.hasOwnProperty.call(
       sections,
-      "ONLINE_SEARCH",
+      "ONLINE_SEARCH"
     );
     const onlineSearch = hasOnlineSearch
       ? sections["ONLINE_SEARCH"]
@@ -197,6 +198,11 @@ export function parseImproveResponse(response: string): ImproveResponse | null {
 
   const improvedExplanation = sections["IMPROVED_EXPLANATION"];
   const improvedAnswer = sections["IMPROVED_ANSWER"];
+  const hasOnlineSearch = Object.prototype.hasOwnProperty.call(
+    sections,
+    "ONLINE_SEARCH"
+  );
+  const onlineSearch = hasOnlineSearch ? sections["ONLINE_SEARCH"] : undefined;
 
   if (!improvedExplanation && !improvedAnswer) {
     console.error("Failed to parse Improve Response keys.");
@@ -207,5 +213,6 @@ export function parseImproveResponse(response: string): ImproveResponse | null {
     improved_answer: improvedAnswer || "",
     improved_explanation: improvedExplanation || "",
     improved_steps: MarkdownSectionParser.parseSteps(improvedExplanation || ""),
+    onlineSearch,
   };
 }

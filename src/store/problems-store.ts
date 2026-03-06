@@ -68,6 +68,7 @@ export interface ProblemsState {
     newAnswer: string,
     newExplanation: string,
     newSteps: ExplanationStep[],
+    newOnlineSearch?: string
   ) => void;
 
   // Solution Management
@@ -194,7 +195,7 @@ export const useProblemsStore = create<ProblemsState>()(
           imageItems: state.imageItems.map((item) =>
             item.id === id
               ? { ...item, file: newFile, url: newUrl, displayName: newName }
-              : item,
+              : item
           ),
           // Note: No need to update imageSolutions map because the Key is now 'id', which hasn't changed.
         }));
@@ -213,7 +214,7 @@ export const useProblemsStore = create<ProblemsState>()(
           // rollback state in zustand
           set((state) => ({
             imageItems: state.imageItems.map((item) =>
-              item.id === id ? originalItem : item,
+              item.id === id ? originalItem : item
             ),
           }));
 
@@ -225,7 +226,7 @@ export const useProblemsStore = create<ProblemsState>()(
       updateItemStatus: (id, status) => {
         set((state) => ({
           imageItems: state.imageItems.map((item) =>
-            item.id === id ? { ...item, status } : item,
+            item.id === id ? { ...item, status } : item
           ),
         }));
         db.homeworks.update(id, { status }).catch(console.error);
@@ -234,7 +235,7 @@ export const useProblemsStore = create<ProblemsState>()(
       updateFileItem: (id, updates) => {
         set((state) => ({
           imageItems: state.imageItems.map((item) =>
-            item.id === id ? { ...item, ...updates } : item,
+            item.id === id ? { ...item, ...updates } : item
           ),
         }));
 
@@ -279,6 +280,7 @@ export const useProblemsStore = create<ProblemsState>()(
         newAnswer,
         newExplanation,
         newSteps,
+        newOnlineSearch
       ) => {
         set((state) => {
           const currentSolution = state.imageSolutions.get(fileId);
@@ -291,7 +293,7 @@ export const useProblemsStore = create<ProblemsState>()(
             answer: newAnswer,
             explanation: newExplanation,
             steps: newSteps,
-            onlineSearch: existingProblem?.onlineSearch,
+            onlineSearch: newOnlineSearch ?? existingProblem?.onlineSearch,
           };
 
           const updatedSolution = {
@@ -346,7 +348,7 @@ export const useProblemsStore = create<ProblemsState>()(
           const currentSolution = state.imageSolutions.get(fileId);
           if (!currentSolution) {
             console.error(
-              `Attempted to update a non-existent solution for ID: ${fileId}`,
+              `Attempted to update a non-existent solution for ID: ${fileId}`
             );
             return state;
           }
@@ -432,6 +434,6 @@ export const useProblemsStore = create<ProblemsState>()(
         selectedImageId: state.selectedImageId,
         selectedProblem: state.selectedProblem,
       }),
-    },
-  ),
+    }
+  )
 );
