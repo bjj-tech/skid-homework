@@ -105,6 +105,14 @@
       "pdf-blocked": {
         "title": "PDF 上传已禁用",
         "description": "要处理 PDF，请启用 Gemini 源或开启 Responses API 的 OpenAI 源。"
+      },
+      "retry": {
+        "title": "请求失败，正在重试",
+        "description": "第 {{attempt}} 次尝试失败：{{error}}。{{delay}} 秒后重试..."
+      },
+      "retry-exhausted": {
+        "title": "重试次数已用尽",
+        "description": "{{source}} 的所有 {{maxRetries}} 次重试均失败，正在切换到下一个提供商..."
       }
     },
     "errors": {
@@ -439,6 +447,10 @@
       },
       "fetch": {
         "error": "获取 {{provider}} 的模型列表失败，请检查 API 密钥或基地址。"
+      },
+      "max-retries": {
+        "label": "最大重试次数",
+        "tip": "当API调用失败时自动重试的最大次数（0-10），设为0则不重试"
       }
     },
     "thinking": {

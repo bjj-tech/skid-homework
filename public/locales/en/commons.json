@@ -105,6 +105,14 @@
       "pdf-blocked": {
         "title": "PDF uploads disabled",
         "description": "Enable a Gemini or OpenAI (Responses API enabled) source to process PDF files."
+      },
+      "retry": {
+        "title": "Request failed, retrying",
+        "description": "Attempt {{attempt}} failed: {{error}}. Retrying in {{delay}} seconds..."
+      },
+      "retry-exhausted": {
+        "title": "Retries exhausted",
+        "description": "All {{maxRetries}} retries for {{source}} failed. Switching to next provider..."
       }
     },
     "errors": {
@@ -439,6 +447,10 @@
       },
       "fetch": {
         "error": "Failed to fetch models for {{provider}}. Check your API key or base URL."
+      },
+      "max-retries": {
+        "label": "Max retries",
+        "tip": "Maximum number of automatic retries when API calls fail (0-10). Set to 0 to disable retries."
       }
     },
     "thinking": {

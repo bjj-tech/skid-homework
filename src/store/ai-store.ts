@@ -23,6 +23,7 @@ export interface AiSource {
   thinkingBudget?: number;
   useResponsesApi?: boolean;
   webSearchToolType?: string;
+  maxRetries?: number;
   enabled: boolean;
 }
 
@@ -55,14 +56,14 @@ export interface AiClient {
     prompt?: string,
     model?: string,
     callback?: (text: string) => void,
-    options?: { onlineSearch?: boolean },
+    options?: { onlineSearch?: boolean }
   ) => Promise<string>;
   getAvailableModels?: () => Promise<AiModelSummary[]>;
   sendChat?: (
     messages: AiChatMessage[],
     model?: string,
     callback?: (text: string) => void,
-    options?: { onlineSearch?: boolean },
+    options?: { onlineSearch?: boolean }
   ) => Promise<string>;
 }
 
@@ -124,6 +125,7 @@ function createDefaultSources(): AiSource[] {
       model: DEFAULT_OPENAI_MODEL,
       traits: undefined,
       thinkingBudget: undefined,
+      useResponsesApi: true,
       enabled: false,
     },
   ];
@@ -143,7 +145,7 @@ function createClientForSource(source: AiSource): AiClient | null {
       source.apiKey,
       source.baseUrl,
       source.useResponsesApi,
-      source.webSearchToolType,
+      source.webSearchToolType
     );
   }
 
@@ -191,14 +193,14 @@ export const useAiStore = create<AiStore>()(
       updateSource: (id, updates) =>
         set((state) => ({
           sources: state.sources.map((source) =>
-            source.id === id ? { ...source, ...updates } : source,
+            source.id === id ? { ...source, ...updates } : source
           ),
         })),
 
       removeSource: (id) =>
         set((state) => {
           const nextSources = state.sources.filter(
-            (source) => source.id !== id,
+            (source) => source.id !== id
           );
 
           const nextActive =
@@ -217,7 +219,7 @@ export const useAiStore = create<AiStore>()(
       toggleSource: (id, enabled) =>
         set((state) => ({
           sources: state.sources.map((source) =>
-            source.id === id ? { ...source, enabled } : source,
+            source.id === id ? { ...source, enabled } : source
           ),
         })),
 
@@ -233,14 +235,14 @@ export const useAiStore = create<AiStore>()(
           (source) =>
             source.id === state.activeSourceId &&
             source.enabled &&
-            Boolean(source.apiKey),
+            Boolean(source.apiKey)
         );
         if (explicit) {
           return explicit;
         }
 
         const firstEnabled = state.sources.find(
-          (source) => source.enabled && Boolean(source.apiKey),
+          (source) => source.enabled && Boolean(source.apiKey)
         );
         if (firstEnabled) {
           return firstEnabled;
@@ -284,8 +286,8 @@ export const useAiStore = create<AiStore>()(
         activeSourceId: state.activeSourceId,
       }),
       version: 1,
-    },
-  ),
+    }
+  )
 );
 
 export const useHasActiveAiKey = () =>

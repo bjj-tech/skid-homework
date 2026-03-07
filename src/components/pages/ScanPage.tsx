@@ -12,7 +12,11 @@ import solvePrompt from "@/ai/prompts/solve.prompt.md";
 import { uint8ToBase64 } from "@/utils/encoding";
 import { parseSolveResponse } from "@/ai/response";
 
-import { type FileItem as FileItem, type ProblemSolution, useProblemsStore, } from "@/store/problems-store";
+import {
+  type FileItem as FileItem,
+  type ProblemSolution,
+  useProblemsStore,
+} from "@/store/problems-store";
 import SolutionsArea from "../solutions/SolutionsArea";
 import { useSettingsStore } from "@/store/settings-store";
 import { processImage } from "@/utils/image-post-processing";
@@ -207,6 +211,7 @@ export default function ScanPage() {
 
   const retryAsyncOperation = async (
     asyncFn: () => Promise<string>,
+    sourceName: string,
     maxRetries: number = 5,
     initialDelayMs: number = 5000
   ): Promise<string> => {
@@ -223,16 +228,35 @@ export default function ScanPage() {
           throw error;
         }
 
+        const errorMessage = lastError?.message || String(error);
         console.log(
           `Attempt ${attempt} failed. Retrying in ${delay / 1000}s...`
         );
 
         if (attempt < maxRetries) {
+          toast.warning(t("toasts.retry.title"), {
+            description: t("toasts.retry.description", {
+              attempt,
+              error: errorMessage.slice(0, 100),
+              delay: Math.round(delay / 1000),
+            }),
+          });
           await new Promise((resolve) => setTimeout(resolve, delay));
           delay *= 2;
         }
       }
     }
+
+    // All retries exhausted
+    if (maxRetries > 0) {
+      toast.error(t("toasts.retry-exhausted.title"), {
+        description: t("toasts.retry-exhausted.description", {
+          source: sourceName,
+          maxRetries,
+        }),
+      });
+    }
+
     throw lastError ?? new Error("Unknown AI failure");
   };
 
@@ -349,18 +373,21 @@ ${traits}
 
             clearStreamedOutput(item.id);
 
-            const resText = await retryAsyncOperation(() =>
-              aiClient.sendMedia(
-                {
-                  data: base64,
-                  mimeType: item.mimeType,
-                  name: item.displayName,
-                },
-                undefined,
-                source.model,
-                (text) => appendStreamedOutput(item.id, text),
-                { onlineSearch: onlineSearchEnabled }
-              )
+            const resText = await retryAsyncOperation(
+              () =>
+                aiClient.sendMedia(
+                  {
+                    data: base64,
+                    mimeType: item.mimeType,
+                    name: item.displayName,
+                  },
+                  undefined,
+                  source.model,
+                  (text) => appendStreamedOutput(item.id, text),
+                  { onlineSearch: onlineSearchEnabled }
+                ),
+              source.name,
+              source.maxRetries ?? 5
             );
 
             const res = parseSolveResponse(resText);
