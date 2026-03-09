@@ -11,12 +11,12 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
+  CommandList
 } from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import { type SourceModels } from "@/hooks/use-available-models";
 
@@ -44,7 +44,7 @@ export type ModelSelectorProps = {
   className?: string;
 };
 
-export default function ModelSelector({
+export function ModelSelector({
   sourceModelsMap,
   value,
   onChangeAction,
@@ -57,7 +57,7 @@ export default function ModelSelector({
   customLabel,
   isCustomSelected = false,
   excludeModel,
-  className,
+  className
 }: ModelSelectorProps) {
   const { t } = useTranslation("commons", { keyPrefix: "settings-page" });
 
@@ -88,7 +88,7 @@ export default function ModelSelector({
     noneLabel,
     isCustomSelected,
     customLabel,
-    t,
+    t
   ]);
 
   const handleSelect = (model: string, sourceId: string | null) => {
@@ -109,7 +109,7 @@ export default function ModelSelector({
           <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 w-[var(--radix-popover-trigger-width)]">
+      <PopoverContent className="p-0 w-(--radix-popover-trigger-width)">
         <Command>
           <CommandInput placeholder={placeholder ?? t("model.sel.search")} />
           <CommandList>

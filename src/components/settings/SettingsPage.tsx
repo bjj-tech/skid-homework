@@ -1,12 +1,12 @@
 "use client";
 
 import { useQwenHintAutoToggle } from "@/hooks/useQwenHintAutoToggle";
-import { type AiProvider, DEFAULT_GEMINI_BASE_URL, DEFAULT_OPENAI_BASE_URL, useAiStore, } from "@/store/ai-store";
+import { type AiProvider, DEFAULT_GEMINI_BASE_URL, DEFAULT_OPENAI_BASE_URL, useAiStore } from "@/store/ai-store";
 import {
   type LanguagePreference,
   type ShortcutAction,
   type ThemePreference,
-  useSettingsStore,
+  useSettingsStore
 } from "@/store/settings-store";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,23 +18,23 @@ import { useAvailableModels } from "@/hooks/use-available-models";
 import ShortcutRecorder from "./ShortcutRecorder";
 import { useTheme } from "../theme-provider";
 import { Button } from "../ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "../ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Kbd } from "../ui/kbd";
 import { Label } from "../ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Slider } from "../ui/slider";
 import { Textarea } from "../ui/textarea";
 import AIAPICredentialsManager from "./AIAPICredentialsManager";
 import AISourceManager from "./AISourceManager";
 import ExplanationModeSelector from "./ExplanationModeSelector";
-import ModelSelector, { CUSTOM_MODEL_VALUE } from "../ui/model-selector";
+import { CUSTOM_MODEL_VALUE, ModelSelector } from "../ui/model-selector";
 import { RefreshCw } from "lucide-react";
 
 export const DEFAULT_BASE_BY_PROVIDER: Record<AiProvider, string> = {
   gemini: DEFAULT_GEMINI_BASE_URL,
-  openai: DEFAULT_OPENAI_BASE_URL,
+  openai: DEFAULT_OPENAI_BASE_URL
 };
 
 type BackButtonProps = {
@@ -43,7 +43,7 @@ type BackButtonProps = {
 
 function BackButton({ href }: BackButtonProps) {
   const { t } = useTranslation("commons", {
-    keyPrefix: "settings-page",
+    keyPrefix: "settings-page"
   });
 
   return (
@@ -59,7 +59,7 @@ function BackButton({ href }: BackButtonProps) {
 
 export default function SettingsPage() {
   const { t, i18n } = useTranslation("commons", {
-    keyPrefix: "settings-page",
+    keyPrefix: "settings-page"
   });
   const isCompact = useMediaQuery("(max-width: 640px)");
 
@@ -87,7 +87,7 @@ export default function SettingsPage() {
     customFallbackName,
     setCustomFallbackName,
     customFallbackSourceId,
-    setCustomFallbackSourceId,
+    setCustomFallbackSourceId
   } = useAiStore((s) => s);
 
   const {
@@ -111,7 +111,7 @@ export default function SettingsPage() {
     devtoolsEnabled,
     setDevtoolsState,
     clearDialogOnSubmit,
-    setClearDialogOnSubmit,
+    setClearDialogOnSubmit
   } = useSettingsStore((s) => s);
 
   const { theme: activeTheme, setTheme } = useTheme();
@@ -144,7 +144,7 @@ export default function SettingsPage() {
   const {
     sourceModelsMap,
     isLoading: modelsLoading,
-    forceRefetch,
+    forceRefetch
   } = useAvailableModels();
 
   const handleBack = useCallback(() => {
@@ -166,16 +166,16 @@ export default function SettingsPage() {
     () => [
       {
         value: "system" as ThemePreference,
-        label: t("appearance.theme.options.system"),
+        label: t("appearance.theme.options.system")
       },
       {
         value: "light" as ThemePreference,
-        label: t("appearance.theme.options.light"),
+        label: t("appearance.theme.options.light")
       },
       {
         value: "dark" as ThemePreference,
-        label: t("appearance.theme.options.dark"),
-      },
+        label: t("appearance.theme.options.dark")
+      }
     ],
     [t]
   );
@@ -184,12 +184,12 @@ export default function SettingsPage() {
     () => [
       {
         value: "en" as LanguagePreference,
-        label: t("appearance.language.options.en"),
+        label: t("appearance.language.options.en")
       },
       {
         value: "zh" as LanguagePreference,
-        label: t("appearance.language.options.zh"),
-      },
+        label: t("appearance.language.options.zh")
+      }
     ],
     [t]
   );
@@ -219,49 +219,49 @@ export default function SettingsPage() {
       {
         action: "upload" as ShortcutAction,
         label: translateSettings("shortcuts.actions.upload.label"),
-        description: translateSettings("shortcuts.actions.upload.description"),
+        description: translateSettings("shortcuts.actions.upload.description")
       },
       {
         action: "textInput" as ShortcutAction,
         label: translateSettings("shortcuts.actions.text-input.label"),
         description: translateSettings(
           "shortcuts.actions.text-input.description"
-        ),
+        )
       },
       !isCompact && {
         action: "adbScreenshot" as ShortcutAction,
         label: translateSettings("shortcuts.actions.adb-screenshot.label"),
         description: translateSettings(
           "shortcuts.actions.adb-screenshot.description"
-        ),
+        )
       },
       {
         action: "startScan" as ShortcutAction,
         label: translateSettings("shortcuts.actions.start-scan.label"),
         description: translateSettings(
           "shortcuts.actions.start-scan.description"
-        ),
+        )
       },
       {
         action: "clearAll" as ShortcutAction,
         label: translateSettings("shortcuts.actions.clear-all.label"),
         description: translateSettings(
           "shortcuts.actions.clear-all.description"
-        ),
+        )
       },
       {
         action: "openSettings" as ShortcutAction,
         label: translateSettings("shortcuts.actions.open-settings.label"),
         description: translateSettings(
           "shortcuts.actions.open-settings.description"
-        ),
+        )
       },
       {
         action: "openChat" as ShortcutAction,
         label: translateSettings("shortcuts.actions.open-chat.label"),
         description: translateSettings(
           "shortcuts.actions.open-chat.description"
-        ),
+        )
       },
       {
         action: "openGlobalTraitsEditor" as ShortcutAction,
@@ -270,8 +270,8 @@ export default function SettingsPage() {
         ),
         description: translateSettings(
           "shortcuts.actions.open-global-traits-editor.description"
-        ),
-      },
+        )
+      }
     ].filter(Boolean) as Array<{
       action: ShortcutAction;
       label: string;
@@ -461,7 +461,7 @@ export default function SettingsPage() {
                       setCustomModelSourceId(value);
                     }}
                   >
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-45">
                       <SelectValue
                         placeholder={t("model.manual.select-provider")}
                       />
@@ -540,7 +540,7 @@ export default function SettingsPage() {
                     updateSource(activeSource.id, {
                       maxRetries: isNaN(val)
                         ? 5
-                        : Math.max(0, Math.min(10, val)),
+                        : Math.max(0, Math.min(10, val))
                     });
                   }}
                 />
@@ -572,7 +572,7 @@ export default function SettingsPage() {
                       setCustomFallbackSourceId(value);
                     }}
                   >
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-45">
                       <SelectValue
                         placeholder={t("model.manual.select-provider")}
                       />

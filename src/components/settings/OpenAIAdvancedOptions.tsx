@@ -2,7 +2,7 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
+  AccordionTrigger
 } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { DEFAULT_OPENAI_BASE_URL } from "@/store/ai-store";
 import { useMemo } from "react";
@@ -21,7 +21,7 @@ import { toast } from "sonner";
 
 const PRESET_URLS: Record<string, string> = {
   openai: DEFAULT_OPENAI_BASE_URL,
-  openrouter: "https://openrouter.ai/api/v1",
+  openrouter: "https://openrouter.ai/api/v1"
 };
 
 function detectPresetFromUrl(url: string | undefined): string | undefined {
@@ -35,7 +35,7 @@ function detectPresetFromUrl(url: string | undefined): string | undefined {
   return undefined;
 }
 
-interface OpenAIAdvancedOptionsProps {
+export type OpenAIAdvancedOptionsProps = {
   apiAddress: string;
   setApiAddress: (address: string) => void;
   useResponsesApi: boolean;
@@ -44,9 +44,9 @@ interface OpenAIAdvancedOptionsProps {
   setWebSearchToolType: (type: string | undefined) => void;
   isCustomWebSearch: boolean;
   setIsCustomWebSearch: (isCustom: boolean) => void;
-}
+};
 
-export default function OpenAIAdvancedOptions({
+export function OpenAIAdvancedOptions({
   apiAddress,
   setApiAddress,
   useResponsesApi,
@@ -54,7 +54,7 @@ export default function OpenAIAdvancedOptions({
   webSearchToolType,
   setWebSearchToolType,
   isCustomWebSearch,
-  setIsCustomWebSearch,
+  setIsCustomWebSearch
 }: OpenAIAdvancedOptionsProps) {
   const { t } = useTranslation("commons", { keyPrefix: "settings-page" });
 

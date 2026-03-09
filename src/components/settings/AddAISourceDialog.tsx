@@ -4,7 +4,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,12 +12,12 @@ import {
   type AiProvider,
   DEFAULT_GEMINI_BASE_URL,
   DEFAULT_OPENAI_BASE_URL,
-  useAiStore,
+  useAiStore
 } from "@/store/ai-store";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import OpenAIAdvancedOptions from "./OpenAIAdvancedOptions";
+import { OpenAIAdvancedOptions } from "./OpenAIAdvancedOptions";
 
 export type AddAISourceDialogProps = {
   onChange: (dialogOpen: boolean) => void;
@@ -26,7 +26,7 @@ export type AddAISourceDialogProps = {
 
 export default function AddAISourceDialog({
   onChange,
-  open,
+  open
 }: AddAISourceDialogProps) {
   const { t } = useTranslation("commons", { keyPrefix: "settings-page" });
 
@@ -84,7 +84,7 @@ export default function AddAISourceDialog({
       thinkingBudget: provider === "gemini" ? 8192 : undefined,
       useResponsesApi: provider === "openai" ? useResponsesApi : undefined,
       webSearchToolType: provider === "openai" ? webSearchToolType : undefined,
-      enabled: true,
+      enabled: true
     });
 
     setActiveSource(newId);
@@ -92,7 +92,7 @@ export default function AddAISourceDialog({
     resetAddDialog();
     toast.success(
       t("sources.add.success", {
-        name,
+        name
       })
     );
   };
